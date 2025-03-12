@@ -1,0 +1,18 @@
+<launch>
+
+    <!-- define the path variables -->
+    <let name="urdf_path" value="$(find-pkg-share my_robot_description)/urdf/my_robot.urdf.xacro" />
+    <let name="rviz_config_path" value="$(find-pkg-share my_robot_description)/rviz/urdf_config.rviz" />
+    
+    <!-- start the node like in the terminal -->
+    <node pkg="robot_state_publisher" exec="robot_state_publisher">
+        <param name="robot_description" value="$(command 'xacro $(var urdf_path)')" />
+    </node>
+
+    <!-- start joint state publisher and make sure to use _gui mode -->
+    <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" />
+
+    <!-- start rviz with the config file -->
+    <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_path)" />
+
+</launch>
